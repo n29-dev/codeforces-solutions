@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define fastio()                      \
-    ios_base::sync_with_stdio(false); \
-    cin.tie(NULL);                    \
-    cout.tie(NULL)
+#define fastio()                    \
+  ios_base::sync_with_stdio(false); \
+  cin.tie(NULL);                    \
+  cout.tie(NULL)
 #define MOD 1000000007
 #define MOD1 998244353
 #define INF 1e18
@@ -17,17 +17,17 @@ typedef unsigned long long ull;
 typedef long double lld;
 
 #ifndef ONLINE_JUDGE
-#define debug(x)       \
-    cerr << #x << " "; \
-    _print(x);         \
-    cerr << endl;
+#define debug(x)     \
+  cerr << #x << " "; \
+  _print(x);         \
+  cerr << endl;
 #else
 #define debug(x)
 #endif
 
 void _print(ll t)
 {
-    cerr << t;
+  cerr << t;
 }
 void _print(int t) { cerr << t; }
 void _print(string t) { cerr << t; }
@@ -50,115 +50,102 @@ void _print(multiset<T> v);
 template <class T, class V>
 void _print(pair<T, V> p)
 {
-    cerr << "{";
-    _print(p.first);
-    cerr << ",";
-    _print(p.second);
-    cerr << "}";
+  cerr << "{";
+  _print(p.first);
+  cerr << ",";
+  _print(p.second);
+  cerr << "}";
 }
 template <class T>
 void _print(vector<T> v)
 {
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
+  cerr << "[ ";
+  for (T i : v)
+  {
+    _print(i);
+    cerr << " ";
+  }
+  cerr << "]";
 }
 template <class T>
 void _print(set<T> v)
 {
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
+  cerr << "[ ";
+  for (T i : v)
+  {
+    _print(i);
+    cerr << " ";
+  }
+  cerr << "]";
 }
 template <class T>
 void _print(multiset<T> v)
 {
-    cerr << "[ ";
-    for (T i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
+  cerr << "[ ";
+  for (T i : v)
+  {
+    _print(i);
+    cerr << " ";
+  }
+  cerr << "]";
 }
 template <class T, class V>
 void _print(map<T, V> v)
 {
-    cerr << "[ ";
-    for (auto i : v)
-    {
-        _print(i);
-        cerr << " ";
-    }
-    cerr << "]";
+  cerr << "[ ";
+  for (auto i : v)
+  {
+    _print(i);
+    cerr << " ";
+  }
+  cerr << "]";
 }
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
+  int n;
+  cin >> n;
 
-    for (int i = 0; i < n; i++)
-        cin >> v[i];
+  vector<int> a(n);
+  vector<int> b(n);
 
-    sort(v.begin(), v.end());
+  for (int i = 0; i < n; i++)
+  {
+    cin >> a[i];
+  }
 
-    int cnt = 0, ans = -1;
-    int i = 0;
+  for (int i = 0; i < n; i++)
+  {
+    cin >> b[i];
+  }
 
-    while (i < n)
-    {
-        auto it = upper_bound(v.begin(), v.end(), v[i]);
-        cnt = n - (it - v.begin());
+  sort(a.begin(), a.end());
+  sort(b.begin(), b.end(), greater<>());
 
-        if (cnt >= v[i])
-        {
-            if (it == v.end())
-            {
-                ans = cnt;
-                break;
-            }
-            else if ((*it) > cnt)
-            {
-                ans = cnt;
-                break;
-            }
-            else
-            {
-                i = it - v.begin();
-            }
-        }
-        else
-        {
-            ans = -1;
-            break;
-        }
-    }
+  ll ans = 1;
+  int tmp;
 
-    cout << ans << nline;
+  for (int i = 0; i < n; i++)
+  {
+    tmp = n - (upper_bound(a.begin(), a.end(), b[i]) - a.begin());
+    ans = (ans * max(tmp - i, 0)) % MOD;
+  }
+
+  cout << ans << nline;
 }
 
 int main()
 {
 #ifndef ONLINE_JUDGE
-    freopen("/home/nazib/Desktop/cf/Error.txt", "w", stderr);
+  freopen("/home/nazib/Desktop/cf/Error.txt", "w", stderr);
 #endif
-    fastio();
-    int TC;
-    cin >> TC;
+  fastio();
+  int TC;
+  cin >> TC;
 
-    while (TC)
-    {
-        solve();
-        TC--;
-    }
+  while (TC)
+  {
+    solve();
+    TC--;
+  }
 }
