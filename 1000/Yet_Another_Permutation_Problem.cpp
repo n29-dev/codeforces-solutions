@@ -106,24 +106,34 @@ void solve()
 	int n;
 	cin >> n;
 
-	vector<int> v(n + 1, 0), ans;
-	ans.push_back(1);
+	vector<vector<int>> v(2);
+	v[0].push_back(n * 2);
+	v[1].push_back(n * 2 - 1);
+
+	int l = 1, r = n * 2 - 2;
 
 	for (int i = 2; i <= n; i++)
 	{
-		for (int j = i; j <= n; j *= 2)
-		{
-			if (v[j] == 0)
-			{
-				v[j] = 1;
-				ans.push_back(j);
-			}
-		}
+		if (i % 2 == 1)
+			v[0].push_back(r), r--;
+		else
+			v[0].push_back(l), l++;
 	}
 
-	for (auto &i : ans)
-		cout << i << " ";
-	cout << nline;
+	for (int i = 2; i <= n; i++)
+	{
+		if (i % 2 == 1)
+			v[1].push_back(r), r--;
+		else
+			v[1].push_back(l), l++;
+	}
+
+	reverse(v[1].begin(), v[1].end());
+	
+	for(auto&i : v[0])cout<<i<<" ";
+	cout<<nline;
+	for(auto&i : v[1])cout<<i<<" ";
+	cout<<nline;
 }
 
 int main()
