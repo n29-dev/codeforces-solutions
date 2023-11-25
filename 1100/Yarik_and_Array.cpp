@@ -103,41 +103,42 @@ void _print(map<T, V> v)
 
 void solve()
 {
-    int n, x = 0;
+    ll n, x, small = 0, large = 0, ans = 0, sum = 0;
     cin >> n;
 
-    vector<int> v(n);
+    vector<int> v(n + 1), f;
 
-    for (int i = 0; i < n; i++)
+    for (int i = 1; i <= n; i++)
         cin >> v[i];
 
-    ll sum, ans;
-    sum = ans = max(v[0], 0);
+    for (int i = 1; i * i <= n; i++)
+        if (n % i == 0)
+            f.push_back(i), f.push_back(n / i);
 
-    for (int i = 1; i < n; i++)
+    for (int i = 0; i < f.size(); i++)
     {
-        ans = max(ans, sum);
-        
-        if (abs(v[i - 1]) % 2 == abs(v[i]) % 2)
+        x = f[i];
+        large = -1;
+        small = -1;
+
+        for (int j = 1; j <= n; j++)
         {
-            sum = max(v[i], 0);
+            sum += v[j];
+
+            if (j % x == 0)
+            {
+                if (small == -1)
+                    small = sum, large = sum;
+                else
+                    small = min(small, sum), large = max(large, sum);
+                sum = 0;
+            }
         }
-        else
-        {
-            if (sum + v[i] < 0)
-                sum = max(v[i], 0);
-            else
-                sum += v[i];
-        }
+
+        ans = max(ans, large - small);
     }
 
-    ans = max(sum, ans);
-    int large = *max_element(v.begin(), v.end());
-
-    if (large >= 0)
-        cout << ans << nline;
-    else
-        cout << large << nline;
+    cout<<(ans)<<nline;
 }
 
 int main()
