@@ -103,34 +103,35 @@ void _print(map<T, V> v)
 
 void solve()
 {
-    int n, q, x, a, b;
-    cin >> n >> q;
-    map<int, int> l, r;
+    int n;
+    cin >> n;
+    string s, a(n, '0');
+    cin >> s;
 
-    for (int i = 1; i <= n; i++)
+    if (s[0] == '9')
     {
-        cin >> x;
+        int in_hand = 0;
 
-        if (l[x] == 0)
-            l[x] = i;
-        else
-            r[x] = i;
+        for (int i = n - 1; i >= 0; i--)
+        {
+            if (s[i] == '9' && in_hand == 1)
+                s[i] = '0';
+            else if (in_hand)
+                s[i] = s[i] + 1, in_hand--;
+
+            if (s[i] != '0' && s[i] != '1')
+                in_hand++;
+
+            a[i] = '0' + ((11 - (s[i] - '0')) % 10);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < n; i++)
+            a[i] = '0' + ('9' - s[i]);
     }
 
-    for (auto &pr : l)
-    {
-        if (r[pr.first] == 0)
-            r[pr.first] = pr.second;
-    }
-
-    for (int i = 1; i <= q; i++)
-    {
-        cin >> a >> b;
-        if (l[a] <= r[b] && min(l[a], r[b]) > 0)
-            cout << "YES" << nline;
-        else
-            cout << "NO" << nline;
-    }
+    cout<<(a)<<nline;
 }
 
 int main()
